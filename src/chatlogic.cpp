@@ -1,4 +1,4 @@
-#include <fstream>
+ #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
@@ -32,9 +32,6 @@ ChatLogic::~ChatLogic()
     //// STUDENT CODE
     ////
 
-    // delete chatbot instance
-    delete _chatBot;
-
     // delete all nodes
     for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
     {
@@ -45,6 +42,13 @@ ChatLogic::~ChatLogic()
     for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
     {
         delete *it;
+    }
+
+    // delete chatbot instance
+    if(_chatBot){
+        _chatBot->SetChatLogicHandle(nullptr);
+        delete _chatBot;
+        _chatBot = nullptr;
     }
 
     ////

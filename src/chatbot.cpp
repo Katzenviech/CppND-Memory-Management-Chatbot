@@ -15,7 +15,9 @@ ChatBot::ChatBot()
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
+    _currentNode = nullptr;
     _filename = "";
+
 }
 
 // constructor WITH memory allocation
@@ -26,6 +28,7 @@ ChatBot::ChatBot(std::string filename)
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
+    _currentNode = nullptr;
 
     // load image into heap memory
     _filename = filename;
@@ -52,6 +55,7 @@ ChatBot::ChatBot(const ChatBot& other){
     _rootNode = other._rootNode;
     _chatLogic = other._chatLogic;
     _filename = other._filename;
+    _currentNode = other._currentNode;
     _image =  new wxBitmap(_filename, wxBITMAP_TYPE_PNG);
 }
 
@@ -61,6 +65,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other){
 	    _rootNode = other._rootNode;
 	    _chatLogic = other._chatLogic;
 	    _filename = other._filename;
+        _currentNode = other._currentNode;
     	_image =  new wxBitmap(other._filename, wxBITMAP_TYPE_PNG);
     }
 
@@ -71,13 +76,16 @@ ChatBot::ChatBot(ChatBot&& other) noexcept {
     std::cout << "ChatBot Move Constructor" << std::endl;
     _rootNode = other._rootNode;
 	_chatLogic = other._chatLogic;
-    _image = other._image;
+    _currentNode = other._currentNode;
     _filename = other._filename;
+    _image = other._image;
 
     other._rootNode = nullptr;
 	other._chatLogic = nullptr;
-    other._image = NULL;
+    other._currentNode = nullptr;
     other._filename = "";
+    other._image = NULL; // according to wxWidget using NULL
+
     _chatLogic->SetChatbotHandle(this);
 }
 
@@ -86,15 +94,15 @@ ChatBot& ChatBot::operator=(ChatBot&& other) noexcept {
     if(this != &other){
 	    _rootNode = other._rootNode;
 		_chatLogic = other._chatLogic;
-	    _image = other._image;
+        _currentNode = other._currentNode;
 	    _filename = other._filename;
+        _image = other._image;
 
 	    other._rootNode = nullptr;
 		other._chatLogic = nullptr;
-	    other._image = nullptr;
-	    other._filename = "";
-
-	    other._image = NULL; // according to wxWidget using NULL
+	    other._currentNode = nullptr;
+        other._filename = "";
+        other._image = NULL; // according to wxWidget using NULL
 
     	_chatLogic->SetChatbotHandle(this);
     }

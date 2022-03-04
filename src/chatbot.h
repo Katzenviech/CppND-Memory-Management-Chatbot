@@ -34,8 +34,8 @@ public:
     
     ChatBot(const ChatBot& other);
     ChatBot& operator=(const ChatBot& other);
-    ChatBot(ChatBot&& other);
-    ChatBot& operator=(ChatBot&& other);
+    ChatBot(ChatBot&& other) noexcept;
+    ChatBot& operator=(ChatBot&& other) noexcept;
 
     ////
     //// EOF STUDENT CODE

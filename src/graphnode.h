@@ -21,7 +21,7 @@ private:
 
     // data handles (not owned)
     std::vector<GraphEdge*> _parentEdges; // edges to preceding nodes 
-    ChatBot _chatBot; // changed from pointer to obj for move semantics
+    ChatBot _chatBot; // changed from pointer to embedded obj for move semantics
 
     ////
     //// EOF STUDENT CODE

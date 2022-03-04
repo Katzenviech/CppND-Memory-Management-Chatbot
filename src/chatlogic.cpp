@@ -205,7 +205,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // add chatbot to graph root node
     chatBot_stack.SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(std::move(chatBot_stack));
+    rootNode->MoveChatbotHere(std::move(chatBot_stack));  // same as (chatBot&&)chatBot_stack except for exception safety ?! -> cast to temporary r-value reference
     
     ////
     //// EOF STUDENT CODE

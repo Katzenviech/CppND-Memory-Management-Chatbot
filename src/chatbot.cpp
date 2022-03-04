@@ -24,6 +24,7 @@ ChatBot::ChatBot(std::string filename)
     std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
+    _chatLogic = nullptr;
     _rootNode = nullptr;
 
     // load image into heap memory
@@ -48,52 +49,56 @@ ChatBot::~ChatBot()
 
 ChatBot::ChatBot(const ChatBot& other){
     std::cout << "ChatBot Copy Constructor" << std::endl;
-    _rootNode = nullptr;
+    _rootNode = other._rootNode;
+    _chatLogic = other._chatLogic;
     _filename = other._filename;
-    _image =  new wxBitmap(other._filename, wxBITMAP_TYPE_PNG);
+    _image =  new wxBitmap(_filename, wxBITMAP_TYPE_PNG);
 }
 
 ChatBot& ChatBot::operator=(const ChatBot& other){
     std::cout << "ChatBot assignment operator" << std::endl;
-    if(this == &other){
-        return *this;
+    if(this != &other){
+	    _rootNode = other._rootNode;
+	    _chatLogic = other._chatLogic;
+	    _filename = other._filename;
+    	_image =  new wxBitmap(other._filename, wxBITMAP_TYPE_PNG);
     }
-
-    _rootNode = nullptr;
-    _filename = other._filename;
-    _image =  new wxBitmap(other._filename, wxBITMAP_TYPE_PNG);
 
     return *this;
 }
 
-ChatBot::ChatBot(ChatBot&& other){
+ChatBot::ChatBot(ChatBot&& other) noexcept {
     std::cout << "ChatBot Move Constructor" << std::endl;
     _rootNode = other._rootNode;
+	_chatLogic = other._chatLogic;
     _image = other._image;
     _filename = other._filename;
 
     other._rootNode = nullptr;
-    other._image = nullptr;
+	other._chatLogic = nullptr;
+    other._image = NULL;
     other._filename = "";
+    _chatLogic->SetChatbotHandle(this);
 }
 
-ChatBot& ChatBot::operator=(ChatBot&& other){
+ChatBot& ChatBot::operator=(ChatBot&& other) noexcept {
     std::cout << "ChatBot move assignment operator" << std::endl;
-    if(this == &other){
-        return *this;
+    if(this != &other){
+	    _rootNode = other._rootNode;
+		_chatLogic = other._chatLogic;
+	    _image = other._image;
+	    _filename = other._filename;
+
+	    other._rootNode = nullptr;
+		other._chatLogic = nullptr;
+	    other._image = nullptr;
+	    other._filename = "";
+
+	    other._image = NULL; // according to wxWidget using NULL
+
+    	_chatLogic->SetChatbotHandle(this);
     }
-
-    delete _rootNode;
-    delete _image;
-
-    _rootNode = other._rootNode;
-    _image = other._image;
-    _filename = other._filename;
-
-    other._rootNode = nullptr;
-    other._image = nullptr;
-    other._filename = "";
-
+	
     return *this;
 }
 

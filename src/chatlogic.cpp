@@ -23,9 +23,6 @@ ChatLogic::~ChatLogic()
     // delete all nodes
     _nodes.clear();
 
-    // delete all edges
-    _edges.clear();
-
 }
 
 template <typename T>
